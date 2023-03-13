@@ -60,7 +60,6 @@ static void yaml_set_attr(void* user, uint8_t* ptr, uint32_t bit_ofs,
                           uint8_t val_len)
 {
   uint32_t i = 0;
-
   // TRACE("set(%s, %.*s, bit-ofs=%u, bits=%u)\n",
   //       node->tag, val_len, val, bit_ofs, node->size);
 
@@ -68,8 +67,10 @@ static void yaml_set_attr(void* user, uint8_t* ptr, uint32_t bit_ofs,
   bit_ofs &= 0x07;
 
   if (node->type == YDT_STRING) {
-    // assert(!bit_ofs);
+   // assert(!bit_ofs);
     copy_string((char*)ptr, node->size >> 3, val, val_len);
+// L4P2B - Trace read data
+    TRACE("***** L4P2B - yaml_set_attr - tag=%s type=YDT_STRING ptr=%p *ptr=%.*s val=%.*s val_len=%d bit-ofs=%u size=%u", node->tag, ptr, val_len, (char *)ptr, val_len, val, val_len, bit_ofs, (node->size) >> 3UL);
     return;
   }
 
@@ -94,6 +95,8 @@ static void yaml_set_attr(void* user, uint8_t* ptr, uint32_t bit_ofs,
     }
 
     yaml_put_bits(ptr, i, bit_ofs, node->size);
+// L4P2B - Trace read data
+    TRACE("***** L4P2B - yaml_set_attr - tag=%s type=YDT_NUM ptr=%p *ptr=%d i=%d val=%.*s val_len=%d bit-ofs=%u size=%u", node->tag, ptr, *ptr, i, val_len, val, val_len, bit_ofs, (node->size) >> 3UL);
 }
 
 const char* yaml_output_enum(int32_t i, const struct YamlIdStr* choices)
@@ -115,6 +118,17 @@ static const char hex_digits[] {
 static bool yaml_output_string(const char* str, uint32_t max_len,
                                yaml_writer_func wf, void* opaque)
 {
+// L4P2B - Trace output strings
+    /*
+    int i;
+    char comp[] = "Layout";
+    for (i = 0; i < strlen(comp); i++)
+        if (str[i] != comp[i])
+            break;
+    if (i == strlen(comp))
+    */
+        TRACE("***** L4P2B - yaml_output_string - str = %s", str);
+
     if (!wf(opaque, "\"", 1))
         return false;
     
@@ -144,6 +158,23 @@ static bool yaml_output_attr(void* user, uint8_t* ptr, uint32_t bit_ofs,
   if (node->type == YDT_NONE) return false;
   if (node->type == YDT_PADDING) return true;
   if (node->type == YDT_CUSTOM && !node->u._cust_attr.write) return true;
+
+// L4P2B - Trace output data
+  if (node->type == YDT_STRING) {
+    TRACE("***** L4P2B - yaml_output_attr - tag=%s type=YDT_STRING ptr=%p *ptr=%s bit-ofs=%u size=%u", node->tag, ptr, ((char *)ptr) + (bit_ofs >> 3UL), bit_ofs >> 3UL, (node->size)  >>3UL);
+// L4P2B - Trace output LayoutId with offset -10 to +20
+    if (node->tag == "LayoutId") {
+      char * char_ptr = (char *)ptr + (bit_ofs >> 3UL) - 10;
+      for (int i = -10; i < 20; i++) {
+          if (*char_ptr > 35 && *char_ptr < 125)
+              TRACE("***** L4P2B - yaml_output_attr - i=%d ptr=%p char=%c", i, (void *)char_ptr, *char_ptr);
+          else
+              TRACE("***** L4P2B - yaml_output_attr - i=%d ptr=%p char=%c", i, (void *)char_ptr, '#');
+          char_ptr++;
+      }
+    }
+  } else
+    TRACE("***** L4P2B - yaml_output_attr - tag=%s type=YDT_NUM ptr=%p bit-ofs=%u size=%u", node->tag, (void *)(((char *)ptr) + (bit_ofs >> 3UL)), bit_ofs >> 3UL, (node->size)  >>3UL);
 
   // output tag
   if (!wf(opaque, node->tag, node->tag_len)) return false;

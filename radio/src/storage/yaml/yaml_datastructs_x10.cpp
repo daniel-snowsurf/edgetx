@@ -864,7 +864,8 @@ static const struct YamlNode struct_LayoutPersistentData[] = {
 };
 static const struct YamlNode struct_CustomScreenData[] = {
   YAML_IDX,
-  YAML_STRING("LayoutId", 10),
+// L4P2B - Add 2 bytes to LayoutId
+  YAML_STRING("LayoutId", 12),
   YAML_STRUCT("layoutData", 6720, struct_LayoutPersistentData, NULL),
   YAML_END
 };

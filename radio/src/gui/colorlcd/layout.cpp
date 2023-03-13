@@ -109,13 +109,20 @@ void loadCustomScreens()
   while (i < MAX_CUSTOM_SCREENS) {
 
     auto& screen = customScreens[i];
+// L4P2B
+    TRACE("***** L4P2B - loadCustomsScreens - LayoutId[%d] = %s", i, g_model.screenData[i].LayoutId);
     screen = loadLayout(viewMain, g_model.screenData[i].LayoutId,
                         &g_model.screenData[i].layoutData);
 
     if (!screen) {
+// L4P2B
+      TRACE("***** L4P2B - loadCustomsScreens - Empty screen %d", i);
       // no more layouts
       break;
     }
+// L4P2B
+    else
+      TRACE("***** L4P2B - loadCustomsScreens - New screen %d", i);
 
     // layout is ok, let's add it
     viewMain->addMainView(screen, i);
@@ -168,7 +175,11 @@ createCustomScreen(const LayoutFactory* factory, unsigned customScreenIndex)
   auto dst = g_model.screenData[customScreenIndex].LayoutId;
   auto src = factory->getId();
   strncpy(dst, src, sizeof(CustomScreenData::LayoutId));
-  
+
+// L4P2B - Check LayoudId of all main views
+  for (int i = 0; i < MAX_CUSTOM_SCREENS; i++)
+    TRACE("***** L4P2B - createCustomScreen - LayoutId[%d] = %s", i, g_model.screenData[i].LayoutId);
+
   return screen;
 }
 

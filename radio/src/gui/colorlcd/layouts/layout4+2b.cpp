@@ -22,6 +22,7 @@
 #include "layout.h"
 #include "layout_factory_impl.h"
 
+// L4P2B - New file
 static uint8_t zmap[] = {
     LAYOUT_MAP_0, LAYOUT_MAP_0, LAYOUT_MAP_HALF, LAYOUT_MAP_1QTR,
     LAYOUT_MAP_0, LAYOUT_MAP_1QTR, LAYOUT_MAP_HALF, LAYOUT_MAP_1QTR,

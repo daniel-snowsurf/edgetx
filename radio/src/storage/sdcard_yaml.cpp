@@ -382,6 +382,11 @@ const char* readModel(const char* filename, uint8_t* buffer, uint32_t size, cons
 const char * writeModelYaml(const char* filename)
 {
     TRACE("YAML model writer");
+
+// L4P2B - Check LayoudId of all main views
+    for (int i = 0; i < MAX_CUSTOM_SCREENS; i++)
+      TRACE("***** L4P2B - writeModelYaml - LayoutId[%d] = %s", i, g_model.screenData[i].LayoutId);
+
     char path[256];
     getModelPath(path, filename);
     return writeFileYaml(path, get_modeldata_nodes(), (uint8_t*)&g_model,0 );
