@@ -577,7 +577,7 @@ typedef uint32_t swarnstate_t;
 #include "gui/colorlcd/layout.h"
 #include "gui/colorlcd/topbar.h"
 // L4P2B - Max 11 chars plus trailing /0
-#define LAYOUT_ID_LEN 12
+#define LAYOUT_ID_LEN 10
 PACK(struct CustomScreenData {
   char LayoutId[LAYOUT_ID_LEN];
   LayoutPersistentData layoutData;

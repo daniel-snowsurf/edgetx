@@ -2629,7 +2629,7 @@ class CustomScreenField: public StructField {
       StructField(this, "Custom Screen")
     {
 // L4P2B - Add 2 bytes to LayoutId
-      Append(new CharField<12>(this, customScreen.layoutId, "Layout id"));
+      Append(new CharField<10>(this, customScreen.layoutId, "Layout id"));
       //Append(new SpareBitsField<16>(this));   //  pad to word boundary not required in this case
       Append(new WidgetsContainerPersistentField<LayoutPersistentData>(this, customScreen.layoutPersistentData, MAX_LAYOUT_ZONES, MAX_LAYOUT_OPTIONS, board, version));
       //dump();

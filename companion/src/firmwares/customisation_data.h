@@ -41,7 +41,7 @@ constexpr int MAX_WIDGET_OPTIONS      {5};
 constexpr int MAX_TOPBAR_ZONES        {4};
 constexpr int MAX_TOPBAR_OPTIONS      {1};
 // L4P2B - Max 11 chars plus trailing /0
-constexpr int LAYOUT_ID_LEN           {12};
+constexpr int LAYOUT_ID_LEN           {10};
 
 // Common 'ZoneOptionValue's among all layouts
 enum {

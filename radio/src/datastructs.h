@@ -86,7 +86,7 @@ static inline void check_struct()
   CHKSIZE(ModelHeader, 131);
   CHKSIZE(CurveHeader, 4);
 // L4P2B - Add 2 bytes to CustomScreenData
-  CHKSIZE(CustomScreenData, 852);
+  CHKSIZE(CustomScreenData, 850);
   CHKTYPE(TopBarPersistentData, 300);
 #elif defined(PCBNV14)
   // TODO
@@ -142,16 +142,16 @@ static inline void check_struct()
   #if defined(PCBX10)
     CHKSIZE(RadioData, 924);
 // L4P2B - Add 10 bytes to ModelData (2 bytes per CustomScreenData)
-    CHKSIZE(ModelData, 11138);
+    CHKSIZE(ModelData, 11128);
   #else
     CHKSIZE(RadioData, 906);
 // L4P2B - Add 10 bytes to ModelData (2 bytes per CustomScreenData)
-    CHKSIZE(ModelData, 11136);
+    CHKSIZE(ModelData, 11126);
   #endif
 #elif defined(PCBNV14)
   CHKSIZE(RadioData, 852);
 // L4P2B - Add 10 bytes to ModelData (2 bytes per CustomScreenData)
-  CHKSIZE(ModelData, 10952);
+  CHKSIZE(ModelData, 10942);
 #endif
 
 #undef CHKSIZE
